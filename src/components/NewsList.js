@@ -6,6 +6,7 @@ import { useParams, Link,useNavigate } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import './newsItem.css';
 import dotenv from  'dotenv'
+import "./Search.css"
 
 
 const PAGE_NUMBER = 1 ; 
@@ -15,6 +16,8 @@ function NewsList  (props) {
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const navigation = useNavigate();
+    const [searchItem, setSearchItem] = useState([]);
+
 
 
 
@@ -94,7 +97,28 @@ const getMore = async () => {
     console.log(response)
 }
 
+
+const handleSearchTerm = (e) => {
+  let value = e.target.value;
+  setSearchItem(value)
+}
+
+
     return (
+<>
+
+
+      <div className="search">
+            <input
+            type="text"
+            name="searchBar"
+            id="searchBar"
+            placeholder="Rechercher"
+            onChange={handleSearchTerm}
+            
+            />
+
+        </div>
         <InfiniteScroll
         dataLength={articles.length}
         next={getMore}
@@ -103,17 +127,22 @@ const getMore = async () => {
 
         >
             
+            <div className="search_results">
 
             
-             {articles.map(article => {
+             {articles.filter((val) => {
+               return Object.values(val).join('').toLowerCase().includes(searchItem);
+             })
+             
+             
+             .map((val) => {
                 return(
-
                 <div> <div className="news-app">
                   <div className='news-item'>
-                      <img className='news-img' src={article.urlToImage} alt={article.urlToImage}  onClick={()=>details(article.url)} />
-                      <h3><a href={article.url}>{article.title}</a></h3>
-                      <p>{article.description}</p>
-                      <Link to= { `/details/${article.title}/${article.description}`}
+                      <img className='news-img' src={val.urlToImage} alt={val.urlToImage}  onClick={()=>details(val.url)} />
+                      <h3><a href={val.url}>{val.title}</a></h3>
+                      <p>{val.description}</p>
+                      <Link to= { `/details/${val.title}/${val.description}`}
 
                             
                       >
@@ -133,6 +162,9 @@ const getMore = async () => {
                 )
             })}
 
+</div>
+
+
 
 
 
@@ -140,7 +172,11 @@ const getMore = async () => {
 
                           </InfiniteScroll>
 
+                          </>
+                    
+
     )
+
 }
 
 export default NewsList;
