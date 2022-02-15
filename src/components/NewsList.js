@@ -39,9 +39,7 @@ function NewsList  (props) {
         const getArticles = async () => {
           //  setLoading(true);
 
-            const response = await axios.get(`https://newsapi.org/v2/everything?q=actualités&apiKey=${apiKey
-
-          }`,
+            const response = await axios.get(`https://newsapi.org/v2/everything?q=actualités&apiKey=${apiKey}`,
             {
                 params:{page:page},
                 
@@ -83,9 +81,7 @@ const getMore = async () => {
     setPage(page+1)
     setLoading(true);
 
-    const response = await axios.get(`https://newsapi.org/v2/everything?q=actualités&apiKey=${apiKey
-
-  }`,
+    const response = await axios.get(`https://newsapi.org/v2/everything?q=actualités&apiKey=${apiKey}`,
     {
         params:{page:page},
         
