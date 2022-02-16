@@ -14,7 +14,7 @@ import { useSelector} from 'react-redux'
 
 const PAGE_NUMBER = 1 ; 
 
-function NewsList  (props) {
+function FavorisHL  (props) {
     const [articles, setArticles] = useState([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(true);
@@ -49,16 +49,15 @@ function NewsList  (props) {
         const getArticles = async () => {
             setLoading(true);
 
-            const response = await axios.get(`https://newsapi.org/v2/everything?q=actualités&apiKey=${apiKey}`,
+            const response = await axios.get(`https://newsapi.org/v2/everything?q=actualités&from=2022-01-16&sortBy=publishedAt&_limit=1&apiKey=${apiKey}`,
             {
-                params:{page:page},
-                
+                params:{totalResults:1},
             }
+           
             )
-            setArticles((prev) => [...prev, ...response.data.articles]);
-          //  setLoading(false);
+           
 
-          //  setArticles(response.data.articles)
+          setArticles(response.data.articles)
             setLoading(false);
 
 
@@ -89,23 +88,7 @@ function details (url) {
 }
 
 
-const getMore = async () => {
-    
-    setPage(page+1)
-    setLoading(true);
 
-    const response = await axios.get(`https://newsapi.org/v2/everything?q=actualités&apiKey=${apiKey}`,
-    {
-        params:{page:page},
-        
-    }
-    )
-    setArticles((articles) => [...articles, ...response.data.articles]);
-    setLoading(false);
-
-  //  setArticles(response.data.articles)
-    console.log(response)
-}
 
 
 const handleSearchTerm = (e) => {
@@ -129,13 +112,7 @@ const handleSearchTerm = (e) => {
             />
 
         </div>
-        <InfiniteScroll
-        dataLength={articles.length}
-        next={getMore}
-        hasMore={true}
-        loader={<h4>loading</h4>}
-
-        >
+        
             
             <div >
 
@@ -180,7 +157,7 @@ const handleSearchTerm = (e) => {
 
         
 
-                          </InfiniteScroll>
+                         
 
                           </>
                     
@@ -189,4 +166,4 @@ const handleSearchTerm = (e) => {
 
 }
 
-export default NewsList;
+export default FavorisHL;
